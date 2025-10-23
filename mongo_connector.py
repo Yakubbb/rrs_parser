@@ -70,7 +70,7 @@ def insert_new_posts(posts_with_categories:list[ParsedPost]):
     posts_to_insert =[]
     
     
-    for post in new_posts:
+    for post in list(set(new_posts)):
         posts_to_insert.append(
             {
                 "title":post.title,
@@ -85,6 +85,10 @@ def insert_new_posts(posts_with_categories:list[ParsedPost]):
                 "image_url":post.image_url
             }
         )
+        
+    for post in new_posts:
+        if [postTitle.title for postTitle in new_posts].count(post.title) > 1:
+            print(Fore.YELLOW + f"[MONGO] Предупреждение: Дублирующий заголовок новости перед вставкой в БД: {post.title}" + Style.RESET_ALL)
     
     result = collection.insert_many(posts_to_insert)
     

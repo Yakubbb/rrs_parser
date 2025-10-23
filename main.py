@@ -50,7 +50,8 @@ def main_loop():
         if len(POST_QUEUE) < 10:
             update_global_queue()
         print(Fore.MAGENTA +f'[MAIN] Новостей в очереди: {len(POST_QUEUE)}' + Style.RESET_ALL)
-        selected_posts = POST_QUEUE[-100:]
+        
+        selected_posts = list(set(POST_QUEUE[-100:]))
         
         avalible_categories = get_avalible_categories()
         avalible_events = get_avalible_events()
